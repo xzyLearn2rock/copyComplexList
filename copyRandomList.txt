@@ -1,0 +1,43 @@
+/*
+struct RandomListNode {
+    int label;
+    struct RandomListNode *next, *random;
+    RandomListNode(int x) :
+            label(x), next(NULL), random(NULL) {
+    }
+};
+*/
+class Solution {
+public:
+    RandomListNode* Clone(RandomListNode* pHead)
+    {
+        if(!pHead)
+            return NULL;
+        map<RandomListNode*,RandomListNode*> dict;
+        RandomListNode * pNewHead = new RandomListNode(pHead->label);
+        dict[pHead] = pNewHead;
+        RandomListNode * newNode = pNewHead;
+        RandomListNode * currentNode = pHead;
+        
+        while(currentNode->next){
+            currentNode = currentNode->next;
+            RandomListNode * node = new RandomListNode(currentNode->label);
+            dict[currentNode] = node;
+            newNode->next = node;
+            newNode = node;
+        }
+        
+        currentNode = pHead;
+        while(currentNode->next){
+            if(currentNode->random){
+                dict[currentNode]->random = dict[currentNode->random];
+            }
+            currentNode = currentNode->next;
+        }
+        
+
+
+        
+        return pNewHead;
+    }
+};
